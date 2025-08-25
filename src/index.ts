@@ -20,9 +20,9 @@ export function sendVisit() {
         visitorId: getVisitorId(),
         pageUrl: window.location.href,
     };
-
     if (navigator.sendBeacon) {
-        navigator.sendBeacon(url, JSON.stringify(payload));
+        const blob = new Blob([JSON.stringify(payload)], { type: "application/json" });
+        navigator.sendBeacon(url, blob);
     } else {
         fetch(url, {
             method: "POST",
