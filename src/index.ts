@@ -3,15 +3,27 @@ const url = "http://localhost:3000/tracking";
 type VisitPayload = {
     visitorId: string;
     pageUrl: string;
+    metadata: {
+        referrer?: string;
+    };
 };
+function getCookie(name: string): string | null {
+    const value = document.cookie.split("; ").find((row) => row.startsWith(name + "="));
+    return value ? decodeURIComponent(value.split("=")[1]) : null;
+}
 
 function getVisitorId(): string {
     const KEY = "yomali_tracker_visitor_id";
-    let id = localStorage.getItem(KEY);
+
+    let id = getCookie(KEY);
     if (!id) {
         id = crypto.randomUUID();
-        localStorage.setItem(KEY, id);
+
+        document.cookie = `${KEY}=${encodeURIComponent(id)}; path=/; max-age=${
+            60 * 60 * 24 * 365
+        }; SameSite=Lax; Secure`;
     }
+
     return id;
 }
 
@@ -19,6 +31,9 @@ export function sendVisit() {
     const payload: VisitPayload = {
         visitorId: getVisitorId(),
         pageUrl: window.location.href,
+        metadata: {
+            referrer: document.referrer || undefined,
+        },
     };
     if (navigator.sendBeacon) {
         const blob = new Blob([JSON.stringify(payload)], { type: "application/json" });
@@ -50,7 +65,7 @@ export function trackPageChange(callback: () => void) {
     window.addEventListener("popstate", callback); // back/forward buttons
 }
 
-if (typeof process === "undefined" || process.env.NODE_ENV !== "test") {
+if (typeof process === "undefined" || process?.env?.NODE_ENV !== "test") {
     sendVisit();
     trackPageChange(() => {
         sendVisit();
