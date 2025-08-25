@@ -7,6 +7,7 @@ export default {
         file: "dist/tracker.js",
         format: "iife", // script simples
         name: "Tracker",
+        sourcemap: true,
     },
     plugins: [typescript(), terser()],
 };

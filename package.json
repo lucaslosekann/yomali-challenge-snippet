@@ -1,11 +1,13 @@
 {
     "name": "tracker-snippet",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "main": "dist/tracker.js",
+    "types": "dist/tracker.d.ts",
     "type": "module",
     "scripts": {
         "build": "rollup -c",
-        "test": "jest"
+        "test": "jest",
+        "pub": "npm run build && npm publish"
     },
     "devDependencies": {
         "@rollup/plugin-terser": "^0.4.4",
