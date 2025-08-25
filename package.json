@@ -8,6 +8,7 @@
         "test": "jest"
     },
     "devDependencies": {
+        "@rollup/plugin-terser": "^0.4.4",
         "@types/jest": "^30.0.0",
         "@types/node": "^24.3.0",
         "jest": "^30.0.5",

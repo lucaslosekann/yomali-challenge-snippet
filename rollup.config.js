@@ -1,3 +1,4 @@
+import terser from "@rollup/plugin-terser";
 import typescript from "rollup-plugin-typescript2";
 
 export default {
@@ -7,5 +8,5 @@ export default {
         format: "iife", // script simples
         name: "Tracker",
     },
-    plugins: [typescript()],
+    plugins: [typescript(), terser()],
 };
