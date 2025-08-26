@@ -1,5 +1,5 @@
 
-# Tracker Snippet
+# Yomali Tracking Assessment - Javascript Snippet
 
 A lightweight **TypeScript-based tracking snippet** for collecting user sessions and page views.  
 It can be included in any website to automatically send user activity events to a backend analytics service.
