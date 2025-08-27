@@ -1,15 +1,15 @@
-import { sendVisit, trackPageChange } from "../src/index";
+import { getCookie, sendVisit, trackPageChange } from "../src/index";
 
 describe("Tracker snippet", () => {
     beforeEach(() => {
-        localStorage.clear();
+        document.cookie = "yomali_tracker_visitor_id=; Max-Age=0; path=/";
         (global as any).navigator.sendBeacon = jest.fn();
         (global as any).fetch = jest.fn(() => Promise.resolve({ ok: true }));
     });
 
     it("should generate a visitorId and send beacon", () => {
         sendVisit();
-        expect(localStorage.getItem("yomali_tracker_visitor_id")).toBeTruthy();
+        expect(getCookie("yomali_tracker_visitor_id")).toBeTruthy();
         expect(navigator.sendBeacon).toHaveBeenCalled();
     });
 
@@ -22,10 +22,11 @@ describe("Tracker snippet", () => {
 
     it("should reuse the same visitorId", () => {
         sendVisit();
-        const firstId = localStorage.getItem("yomali_tracker_visitor_id");
+        const firstId = getCookie("yomali_tracker_visitor_id");
         sendVisit();
-        const secondId = localStorage.getItem("yomali_tracker_visitor_id");
+        const secondId = getCookie("yomali_tracker_visitor_id");
 
+        expect(firstId).toBeTruthy();
         expect(firstId).toBe(secondId);
     });
 

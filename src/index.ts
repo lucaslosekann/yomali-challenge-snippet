@@ -8,7 +8,7 @@ type VisitPayload = {
         referrer?: string;
     };
 };
-function getCookie(name: string): string | null {
+export function getCookie(name: string): string | null {
     const value = document.cookie.split("; ").find((row) => row.startsWith(name + "="));
     return value ? decodeURIComponent(value.split("=")[1]) : null;
 }
@@ -20,9 +20,7 @@ function getVisitorId(): string {
     if (!id) {
         id = crypto.randomUUID();
 
-        document.cookie = `${KEY}=${encodeURIComponent(id)}; path=/; max-age=${
-            60 * 60 * 24 * 365
-        }; SameSite=Lax; Secure`;
+        document.cookie = `${KEY}=${encodeURIComponent(id)}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax;`;
     }
 
     return id;
